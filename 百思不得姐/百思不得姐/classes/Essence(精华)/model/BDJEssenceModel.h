@@ -61,6 +61,11 @@
 @property (nonatomic, copy)NSString<Optional> *up;
 @property (nonatomic, strong)BDJVideo<Optional> *video;
 
+
+/*用来设置和获取对应的cell的高度*/
+@property (nonatomic, strong)NSNumber<Optional> *cellHeight;
+
+
 @end
 
 

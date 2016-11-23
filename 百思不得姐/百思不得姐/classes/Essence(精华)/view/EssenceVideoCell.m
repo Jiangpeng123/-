@@ -53,7 +53,7 @@
 @implementation EssenceVideoCell
 
 + (EssenceVideoCell *)videoCellForTableView:(UITableView *)tableView atIndexPath:(NSIndexPath *)indexPath WithModel:(BDJEssenceDetail *)detailModel {
-    
+    //static提高代码的运行效率
     static NSString *cellId = @"videoCellId";
     EssenceVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (nil == cell) {
@@ -77,6 +77,7 @@
     self.userNameLabel.text = detaiModel.u.name;
     
     //3.时间
+//    self.palyNumberLabel.text = detaiModel.
     self.passTimeLabel.text = detaiModel.passtime;
     
     //4.描述文字
@@ -93,7 +94,7 @@
     self.imageHCons.constant = imageH;
    
     //6.播放次数
-    self.playTimeLabel.text = [detaiModel.video.playcount stringValue];
+    self.palyNumberLabel.text = [detaiModel.video.playcount stringValue];
     
     //7.视频时间
     NSInteger min = 0;
@@ -104,10 +105,25 @@
     }
     
     self.playTimeLabel.text = [NSString stringWithFormat:@"%02ld:%02ld",min,sec];
+    
     //8.评论文字
     if (detaiModel.top_comments.count>0) {
         BDJEssenceComment *comment = [detaiModel.top_comments firstObject];
         self.commentLabel.text = comment.content;
+    }else {
+        self.commentLabel.text = nil;
+    }
+    //强制cell布局一次
+    [self layoutIfNeeded];
+    
+    //修改评论视图的约束
+    if (detaiModel.top_comments.count>0) {
+        self.commentViewYCons.constant = 10;
+        self.commentViewHCons.constant = self.commentLabel.frame.size.height+10;
+    }else {
+        //没有评论的时候
+        self.commentViewHCons.constant = 0;
+        self.commentViewYCons.constant = 0;
     }
     //9.标签
     NSMutableString *tagString = [NSMutableString string];
@@ -115,11 +131,19 @@
         BDJEssenceTag *tag = detaiModel.tags[i];
         [tagString appendFormat:@"%@",tag.name];
     }
+    self.tagLabel.text = tagString;
+    
     //10.顶、踩、分享、评论的数量
     [self.dingButton setTitle:detaiModel.up forState:UIControlStateNormal];
     [self.dingButton setTitle:[detaiModel.down stringValue] forState:UIControlStateNormal];
     [self.dingButton setTitle:[detaiModel.forward stringValue] forState:UIControlStateNormal];
     [self.dingButton setTitle:detaiModel.comment forState:UIControlStateNormal];
+    
+    //强制刷新一次(放在下面的self.dingButton.frame没有转化过来)
+    [self layoutIfNeeded];
+    
+    //获取cell的高度值
+    detaiModel.cellHeight = @(CGRectGetMaxY(self.dingButton.frame)+10+10);
     
 }
 

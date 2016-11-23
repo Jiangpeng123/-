@@ -237,6 +237,9 @@
 		BC10ED141DE2DDD300B6C04A /* BDJTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = BC10ED131DE2DDD300B6C04A /* BDJTabBar.m */; };
 		BC10ED181DE2DF1B00B6C04A /* UIButton+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = BC10ED171DE2DF1B00B6C04A /* UIButton+Util.m */; };
 		BC10ED1D1DE2E7F100B6C04A /* UIView+Util.m in Sources */ = {isa = PBXBuildFile; fileRef = BC10ED1C1DE2E7F100B6C04A /* UIView+Util.m */; };
+		BCCDEDE01DE5796B00E35328 /* BDJMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCDEDDF1DE5796B00E35328 /* BDJMenu.m */; };
+		BCCDEDE31DE5865700E35328 /* BDJMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCDEDE21DE5865700E35328 /* BDJMenuViewController.m */; };
+		BCCDEDE61DE5882800E35328 /* BDJTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCDEDE51DE5882800E35328 /* BDJTableViewController.m */; };
 		BCD8DF401DE418D800A43BEE /* BDJDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD8DF3F1DE418D800A43BEE /* BDJDownloader.m */; };
 		BCD8DF431DE41F5700A43BEE /* BDJEssenceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD8DF421DE41F5700A43BEE /* BDJEssenceModel.m */; };
 		BCD8DF471DE4349C00A43BEE /* EssenceVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD8DF451DE4349C00A43BEE /* EssenceVideoCell.m */; };
@@ -511,6 +514,12 @@
 		BC10ED1A1DE2E61800B6C04A /* BDJConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BDJConst.h; sourceTree = "<group>"; };
 		BC10ED1B1DE2E7F100B6C04A /* UIView+Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Util.h"; sourceTree = "<group>"; };
 		BC10ED1C1DE2E7F100B6C04A /* UIView+Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Util.m"; sourceTree = "<group>"; };
+		BCCDEDDE1DE5796B00E35328 /* BDJMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDJMenu.h; sourceTree = "<group>"; };
+		BCCDEDDF1DE5796B00E35328 /* BDJMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDJMenu.m; sourceTree = "<group>"; };
+		BCCDEDE11DE5865700E35328 /* BDJMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDJMenuViewController.h; sourceTree = "<group>"; };
+		BCCDEDE21DE5865700E35328 /* BDJMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDJMenuViewController.m; sourceTree = "<group>"; };
+		BCCDEDE41DE5882800E35328 /* BDJTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BDJTableViewController.h; path = "../../Common(公共)/BDJTableViewController.h"; sourceTree = "<group>"; };
+		BCCDEDE51DE5882800E35328 /* BDJTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BDJTableViewController.m; path = "../../Common(公共)/BDJTableViewController.m"; sourceTree = "<group>"; };
 		BCD8DF3E1DE418D800A43BEE /* BDJDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDJDownloader.h; sourceTree = "<group>"; };
 		BCD8DF3F1DE418D800A43BEE /* BDJDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDJDownloader.m; sourceTree = "<group>"; };
 		BCD8DF411DE41F5700A43BEE /* BDJEssenceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDJEssenceModel.h; sourceTree = "<group>"; };
@@ -740,6 +749,10 @@
 			children = (
 				BC10ED031DE2D01800B6C04A /* EssenceViewController.h */,
 				BC10ED041DE2D01800B6C04A /* EssenceViewController.m */,
+				BCCDEDE11DE5865700E35328 /* BDJMenuViewController.h */,
+				BCCDEDE21DE5865700E35328 /* BDJMenuViewController.m */,
+				BCCDEDE41DE5882800E35328 /* BDJTableViewController.h */,
+				BCCDEDE51DE5882800E35328 /* BDJTableViewController.m */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -749,6 +762,8 @@
 			children = (
 				BCD8DF411DE41F5700A43BEE /* BDJEssenceModel.h */,
 				BCD8DF421DE41F5700A43BEE /* BDJEssenceModel.m */,
+				BCCDEDDE1DE5796B00E35328 /* BDJMenu.h */,
+				BCCDEDDF1DE5796B00E35328 /* BDJMenu.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1525,8 +1540,11 @@
 				BC10ED0B1DE2D05500B6C04A /* AttentionViewController.m in Sources */,
 				BC10ED051DE2D01800B6C04A /* EssenceViewController.m in Sources */,
 				BC10ED1D1DE2E7F100B6C04A /* UIView+Util.m in Sources */,
+				BCCDEDE31DE5865700E35328 /* BDJMenuViewController.m in Sources */,
 				BC10ED141DE2DDD300B6C04A /* BDJTabBar.m in Sources */,
+				BCCDEDE01DE5796B00E35328 /* BDJMenu.m in Sources */,
 				BC10ED181DE2DF1B00B6C04A /* UIButton+Util.m in Sources */,
+				BCCDEDE61DE5882800E35328 /* BDJTableViewController.m in Sources */,
 				BC10ED111DE2D19300B6C04A /* BDJTabBarController.m in Sources */,
 				BCD8DF401DE418D800A43BEE /* BDJDownloader.m in Sources */,
 				BC10EB061DE2C78700B6C04A /* main.m in Sources */,

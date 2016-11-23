@@ -8,6 +8,8 @@
 
 #import "BDJTabBarController.h"
 #import "BDJTabBar.h"
+#import "BDJMenu.h"
+#import "EssenceViewController.h"
 @interface BDJTabBarController ()
 
 @end
@@ -20,14 +22,83 @@
 //    self.tabBar.tintColor = [UIColor colorWithWhite:64.0f/255.0f alpha:1.0f];
     
     [UITabBar appearance].tintColor = [UIColor colorWithWhite:64.0f/255.0f alpha:1.0f];
-    //创建视图控制器
-    [self createViewControllers];
     
     //使用自定制的tabBar(OC里面没有真正私有的属性，由于tabBar是系统私有的属性，所以用这种方法来取)
     [self setValue:[[BDJTabBar alloc] init] forKey:@"tabBar"];
     
+    //创建视图控制器
+    [self createViewControllers];
+    
+    //获取菜单数据
+    [self loadMenuData];
+   
+    
     
 }
+
+//获取菜单的数据
+- (void)loadMenuData {
+    NSString *filePath = [self menuFilePath];
+    if  ([[NSFileManager defaultManager]fileExistsAtPath:filePath]) {
+        //读文件
+        NSData *data = [NSData dataWithContentsOfFile:filePath];
+        BDJMenu *menu = [[BDJMenu alloc] initWithData:data error:nil];
+        //显示
+        [self showAllMenuData:menu];
+    }
+    
+    //更新菜单的数据
+    [self downloadMenuData];
+    
+}
+
+
+
+//下载菜单数据
+- (void)downloadMenuData {
+    //http://s.budejie.com/public/list-appbar/bs0315-iphone-4.3/
+    NSString *str = @"http://s.budejie.com/public/list-appbar/bs0315-iphone-4.3/";
+   [BDJDownloader downloadWithURLString:str success:^(NSData *data) {
+       //解析
+       BDJMenu *menu = [[BDJMenu alloc] initWithData:data error:nil];
+       
+       NSString *path = [self menuFilePath];
+       //如果plist菜单不存在
+       if(![[NSFileManager defaultManager] fileExistsAtPath:path])  {
+           [self showAllMenuData:menu];
+       }
+       //存储本地
+       [data writeToFile:path atomically:YES];
+       //显示菜单数据
+       [self showAllMenuData:menu];
+       
+       
+       
+       
+       
+   } fail:^(NSError *error) {
+       NSLog(@"%@",error);
+       
+   }];
+}
+
+
+- (void)showAllMenuData:(BDJMenu *)menu {
+    //设置精华的菜单数据
+    UINavigationController *essenceNavCtrl = [self.viewControllers firstObject];
+    EssenceViewController *essenceCtrl = [essenceNavCtrl.viewControllers firstObject];
+//    NSLog(@"%@",essenceCtrl);
+    essenceCtrl.subMenus = [[menu.menus firstObject] submenus];
+    
+}
+
+
+//本地存储菜单数据的文件名
+- (NSString *)menuFilePath {
+    NSString *docpath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    return [docpath stringByAppendingPathComponent:@"menu.plist"];
+}
+
 
 //创建视图控制器
 - (void)createViewControllers {
