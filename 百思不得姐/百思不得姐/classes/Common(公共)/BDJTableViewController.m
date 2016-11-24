@@ -17,6 +17,7 @@
 //分页
 @property (nonatomic, strong)NSNumber *np;
 
+
 @end
 
 @implementation BDJTableViewController
@@ -26,7 +27,7 @@
     // Do any additional setup after loading the view.
     //创建表格
     [self createTableView];
-    //下载数据
+    //下载数据(@(0)是对象)
     self.np = @(0);
     [self downloadListData];
     
@@ -67,7 +68,7 @@
 //下载数据
 - (void)downloadListData {
     
-    //开始下载
+    //开始下载(弹出正在下载界面，此时页面不能刷新)
     [ProgressHUD show:@"正在下载" Interaction:NO];
     
     //http://s.budejie.com/topic/list/jingxuan/41/bs0315-iphone-4.3/0-20.json
@@ -76,7 +77,7 @@
     [BDJDownloader downloadWithURLString:urlString success:^(NSData *data) {
         NSError *error = nil;
         BDJEssenceModel *model = [[BDJEssenceModel alloc] initWithData:data error:&error];
-        if (error) {
+        if (error) { 
             NSLog(@"%@",error);
         }else {
             //第一页
@@ -128,10 +129,10 @@
     if ([detail.type isEqualToString:@"video"]) {
         cell = [EssenceVideoCell videoCellForTableView:tableView atIndexPath:indexPath WithModel:detail];
         
-
     }else {
         cell = [[UITableViewCell alloc]init];
     }
+    //被选中取消状态
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

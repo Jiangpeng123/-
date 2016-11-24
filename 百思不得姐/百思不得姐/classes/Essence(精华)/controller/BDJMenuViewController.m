@@ -9,14 +9,22 @@
 #import "BDJMenuViewController.h"
 #import "BDJTableViewController.h"
 #import "BDJMenu.h"
+#import "BDJMenuView.h"
 /*精华的最新界面公共的父类*/
 
-@interface BDJMenuViewController () <UIPageViewControllerDelegate,UIPageViewControllerDataSource>
+@interface BDJMenuViewController () <UIPageViewControllerDelegate,UIPageViewControllerDataSource,BDJMenuViewDelegate>
 
 //视图控制器的数组
 @property (nonatomic, strong)NSMutableArray *ctrlArray;
+//当前显示的视图控制器
+@property (nonatomic, assign)NSInteger curPageIndex;
+
 //分页视图控制器
 @property (nonatomic, strong)UIPageViewController *pageCtrl;
+
+//菜单视图
+@property (nonatomic, strong)BDJMenuView *menuView;
+
 @end
 
 @implementation BDJMenuViewController
@@ -44,17 +52,45 @@
     }
     //创建分页控制器
     [self createPageCtrl];
+    
+    //创建导航
+    [self createMenu];
+    
+}
+
+- (void)createMenu {
+   
+    BDJMenuView *menuView = [[BDJMenuView alloc] initWithItems:self.subMenus rightIcon:self.rightImageName rightSelecctIcon:self.rightHLImageName];
+    
+    self.menuView = menuView;
+    
+    //设置代理
+    menuView.delegate = self;
+    //用约束也可以
+//    menuView.frame = CGRectMake(0, 0, kScreenWidth, 44);
+    self.navigationItem.titleView = menuView;
+    //约束
+    [menuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.navigationController.view);
+        make.top.equalTo(self.navigationController.view).offset(20);
+        make.height.mas_equalTo(44);
+    }];
+
+    
+    
 }
 
 //创建分页控制器
 - (void)createPageCtrl {
     UIPageViewController *pageCtrl = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    [pageCtrl setViewControllers:@[[self.ctrlArray firstObject]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    [self.view addSubview:pageCtrl.view];
-    
     //设置代理
     pageCtrl.delegate = self;
     pageCtrl.dataSource = self;
+    //@[@"1",@"3",@"2"];
+    [pageCtrl setViewControllers:@[[self.ctrlArray firstObject]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    
+    [self.view addSubview:pageCtrl.view];
+    
     
     self.pageCtrl = pageCtrl;
     //约束
@@ -94,6 +130,7 @@
 }
 //返回向前滑动时显示的视图控制器
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
+    //获取当前的序号
     NSInteger curIndex = [self.ctrlArray indexOfObject:viewController];
     //获取前面的视图控制器
     if (curIndex - 1 < 0) {
@@ -101,6 +138,42 @@
     }else {
         return self.ctrlArray[curIndex-1];
     }
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers {
+    //获取将要滑到的界面的序号
+    UIViewController *toCtrl = [pendingViewControllers lastObject];
+    NSInteger index = [self.ctrlArray indexOfObject:toCtrl];
+    
+    self.curPageIndex = index;
+    
+}
+//手动滑动pageCtrl，切换结束的时调用
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
+    
+    self.menuView.selectIndex = self.curPageIndex;
+}
+
+#pragma mark - BDJMenuView代理
+- (void)menuView:(BDJMenuView *)menuView didCilckBtnAtIndex:(NSInteger)index {
+    
+    //获取视图控制器
+    UIViewController *vc = self.ctrlArray[index];
+    
+    //向右滑动
+    UIPageViewControllerNavigationDirection dir = UIPageViewControllerNavigationDirectionForward;
+    if (index < self.curPageIndex) {
+        dir = UIPageViewControllerNavigationDirectionReverse;
+    }
+    self.curPageIndex = index;
+    [self.pageCtrl setViewControllers:@[vc] direction:dir animated:YES completion:nil];
+    
+}
+
+
+- (void)menuView:(BDJMenuView *)menuView didClickRightBtn:(MenuType)type {
+    NSLog(@"点击了右边的按钮");
 }
 
 /*

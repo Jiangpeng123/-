@@ -71,7 +71,7 @@
     //1.用户图标
     NSString *headerString = [detaiModel.u.header firstObject];
     NSURL *url = [NSURL URLWithString:headerString];
-    [self.userImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"post_placeholderImager"]];
+    [self.userImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"post_placeholderImage"]];
     
     //2.用户名
     self.userNameLabel.text = detaiModel.u.name;
@@ -87,9 +87,9 @@
     NSString *videoString = [detaiModel.video.thumbnail_small firstObject];
     
     NSURL *videoUrl = [NSURL URLWithString:videoString];
-    [self.videoImageView sd_setImageWithURL:videoUrl placeholderImage:[UIImage imageNamed:@"post_placeholderImager"]];
+    [self.videoImageView sd_setImageWithURL:videoUrl placeholderImage:[UIImage imageNamed:@"post_placeholderImage"]];
     
-    //修改高度
+    //修改高度()
     CGFloat imageH = (kScreenWidth-20)*detaiModel.video.height.floatValue/detaiModel.video.width.floatValue;
     self.imageHCons.constant = imageH;
    

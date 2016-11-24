@@ -38,7 +38,9 @@
 
 //获取菜单的数据
 - (void)loadMenuData {
+    
     NSString *filePath = [self menuFilePath];
+    //判断是否已存在
     if  ([[NSFileManager defaultManager]fileExistsAtPath:filePath]) {
         //读文件
         NSData *data = [NSData dataWithContentsOfFile:filePath];
@@ -63,7 +65,7 @@
        BDJMenu *menu = [[BDJMenu alloc] initWithData:data error:nil];
        
        NSString *path = [self menuFilePath];
-       //如果plist菜单不存在
+       //如果plist菜单不存在,显示菜单数据
        if(![[NSFileManager defaultManager] fileExistsAtPath:path])  {
            [self showAllMenuData:menu];
        }
@@ -96,6 +98,7 @@
 //本地存储菜单数据的文件名
 - (NSString *)menuFilePath {
     NSString *docpath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    
     return [docpath stringByAppendingPathComponent:@"menu.plist"];
 }
 
